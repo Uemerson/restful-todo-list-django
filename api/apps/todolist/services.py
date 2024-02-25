@@ -35,3 +35,14 @@ class TodoListService:
         todo_list.delete()
         cache.delete(f'retrieve-todolist-{pk}')
         cache.delete('list-todolist')
+
+    def update(self, pk: str, data: dict):
+        todo_list = get_object_or_404(TodoList, pk=pk)
+        serializer = TodoListSerializer(
+            instance=todo_list, data=data, partial=True
+        )
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        cache.delete(f'retrieve-todolist-{pk}')
+        cache.delete('list-todolist')
+        return serializer.data
