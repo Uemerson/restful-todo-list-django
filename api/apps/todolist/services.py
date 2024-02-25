@@ -29,3 +29,8 @@ class TodoListService:
             cache.set(f'retrieve-todolist-{pk}', serializer.data, timeout=None)
             return serializer.data
         return todo_list
+
+    def destroy(self, pk: str):
+        todo_list = get_object_or_404(TodoList, pk=pk)
+        todo_list.delete()
+        cache.delete(f'retrieve-todolist-{pk}')
