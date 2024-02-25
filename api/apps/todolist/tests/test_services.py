@@ -77,3 +77,9 @@ class TodoListServicesTestCase(TestCase):
         with self.assertRaises(Http404):
             self.todolist.delete()
             self.todo_list_service.retrieve(self.todolist.pk)
+
+    @patch('apps.todolist.services.cache.delete')
+    def test_destroy_todo_list_service(self, mock_delete):
+        self.todo_list_service.destroy(self.todolist.pk)
+        mock_delete.assert_called_once()
+        self.assertFalse(TodoList.objects.filter(id=self.todolist.pk).exists())
