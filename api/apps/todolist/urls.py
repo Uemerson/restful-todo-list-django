@@ -15,5 +15,6 @@ urlpatterns = [
                 'get': 'retrieve',
             }
         ),
+        name='todolist_pk',
     ),
 ]
