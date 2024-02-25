@@ -48,3 +48,23 @@ class TodoListViewsTestCase(TestCase):
         )
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
         self.assertEqual(response.content.decode('utf-8'), '')
+
+    def test_update_todo_list_viewset(self):
+        response = self.client.put(
+            reverse(
+                'todolist_pk',
+                kwargs={'pk': self.todolist.pk},
+            ),
+            data={
+                **TodoListSerializer(self.todolist).data,
+                'concluded': True,
+            },
+            content_type='application/json',
+        )
+        content = json.loads(response.content)
+        self.assertEqual(response.status_code, status.HTTP_202_ACCEPTED)
+        self.assertEqual(content['concluded'], True)
+        self.assertNotEqual(
+            content['updated_at'],
+            TodoListSerializer(self.todolist).data['updated_at'],
+        )
