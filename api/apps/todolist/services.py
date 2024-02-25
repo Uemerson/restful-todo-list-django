@@ -34,3 +34,4 @@ class TodoListService:
         todo_list = get_object_or_404(TodoList, pk=pk)
         todo_list.delete()
         cache.delete(f'retrieve-todolist-{pk}')
+        cache.delete('list-todolist')
