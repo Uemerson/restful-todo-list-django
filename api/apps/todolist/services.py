@@ -4,16 +4,14 @@ from .models import TodoList
 from .serializers import TodoListSerializer
 
 
-class AddTodoListService:
-    def handle(self, todo_list: TodoListSerializer) -> TodoListSerializer:
+class TodoListService:
+    def create(self, todo_list: TodoListSerializer) -> TodoListSerializer:
         todo_list.save()
         for key in ['list-todolist']:
             cache.delete(key)
         return todo_list
 
-
-class ListTodoListService:
-    def handle(self) -> dict:
+    def list(self) -> list[dict]:
         todo_lists = cache.get('list-todolist')
         if not todo_lists:
             todo_lists = TodoList.objects.all()
