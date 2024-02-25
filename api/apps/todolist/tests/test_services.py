@@ -25,18 +25,26 @@ class TodoListServicesTestCase(TestCase):
 
     @patch('apps.todolist.services.cache.delete')
     def test_create_service(self, mock_delete):
-        todo_list_data = {
+        todo_list = {
             'title': 'valid_title',
             'description': 'valid_description',
         }
-        serializer = TodoListSerializer(data=todo_list_data)
-        self.assertTrue(serializer.is_valid())
-        todo_list = self.todo_list_service.create(serializer)
-        mock_delete.assert_called_once()
+        todo_list = self.todo_list_service.create(todo_list)
+        mock_delete.assert_called_once_with('list-todolist')
         self.assertTrue(
-            TodoList.objects.filter(id=todo_list.data['id']).exists()
+            all(
+                key in todo_list
+                for key in [
+                    'id',
+                    'title',
+                    'description',
+                    'concluded',
+                    'created_at',
+                    'updated_at',
+                ]
+            )
         )
-        self.assertEqual(todo_list.data, serializer.data)
+        self.assertTrue(TodoList.objects.filter(id=todo_list['id']).exists())
 
     def test_list_service(self):
         todo_lists = self.todo_list_service.list()
