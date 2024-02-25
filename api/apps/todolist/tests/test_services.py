@@ -115,3 +115,13 @@ class TodoListServicesTestCase(TestCase):
                 ((f'retrieve-todolist-{self.todo_list.pk}')),
             ],
         )
+
+    def test_should_raise_404_when_id_not_found_in_update_service(
+        self,
+    ):
+        with self.assertRaises(Http404):
+            self.todo_list.delete()
+            self.todo_list_service.update(
+                self.todo_list.pk,
+                {**TodoListSerializer(self.todo_list).data, 'concluded': True},
+            )
