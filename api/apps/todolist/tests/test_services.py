@@ -53,12 +53,14 @@ class TodoListServicesTestCase(TestCase):
     @patch('apps.todolist.services.cache.get')
     def test_should_call_get_cache_in_list_service(self, mock_get):
         self.todo_list_service.list()
-        mock_get.assert_called_once()
+        mock_get.assert_called_once_with('list-todolist')
 
     @patch('apps.todolist.services.cache.set')
     def test_should_call_set_cache_in_list_service(self, mock_set):
         todo_lists = self.todo_list_service.list()
-        mock_set.assert_called_once()
+        mock_set.assert_called_once_with(
+            'list-todolist', todo_lists, timeout=None
+        )
         self.assertEqual(todo_lists, [TodoListSerializer(self.todo_list).data])
 
     def test_retrieve_service(self):
@@ -68,12 +70,16 @@ class TodoListServicesTestCase(TestCase):
     @patch('apps.todolist.services.cache.get')
     def test_should_call_get_cache_in_retrieve_service(self, mock_get):
         self.todo_list_service.retrieve(self.todo_list.pk)
-        mock_get.assert_called_once()
+        mock_get.assert_called_once_with(
+            f'retrieve-todolist-{self.todo_list.pk}'
+        )
 
     @patch('apps.todolist.services.cache.set')
     def test_should_call_set_cache_in_retrieve_service(self, mock_set):
         todo_list = self.todo_list_service.retrieve(self.todo_list.pk)
-        mock_set.assert_called_once()
+        mock_set.assert_called_once_with(
+            f'retrieve-todolist-{self.todo_list.pk}', todo_list, timeout=None
+        )
         self.assertEqual(todo_list, TodoListSerializer(self.todo_list).data)
 
     def test_should_raise_404_when_id_not_found_in_retrieve_service(
