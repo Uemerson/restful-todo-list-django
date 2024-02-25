@@ -24,3 +24,7 @@ class TodoListViewSet(viewsets.ViewSet):
     def retrieve(self, request, pk=None):
         todo_list = self.__todo_list_service.retrieve(pk)
         return Response(todo_list, status=status.HTTP_200_OK)
+
+    def destroy(self, request, pk=None):
+        self.__todo_list_service.destroy(pk)
+        return Response(status=status.HTTP_204_NO_CONTENT)
