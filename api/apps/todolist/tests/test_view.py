@@ -41,3 +41,10 @@ class TodoListViewsTestCase(TestCase):
         content = json.loads(response.content)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(content, TodoListSerializer(self.todolist).data)
+
+    def test_destroy_todo_list_viewset(self):
+        response = self.client.delete(
+            reverse('todolist_pk', kwargs={'pk': self.todolist.pk})
+        )
+        self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
+        self.assertEqual(response.content.decode('utf-8'), '')
