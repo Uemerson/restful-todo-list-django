@@ -12,10 +12,8 @@ class TodoListViewSet(viewsets.ViewSet):
         self.__todo_list_service = TodoListService()
 
     def create(self, request):
-        serializer = TodoListSerializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        todo_list = self.__todo_list_service.create(serializer)
-        return Response(todo_list.data, status=status.HTTP_201_CREATED)
+        todo_list = self.__todo_list_service.create(request.data)
+        return Response(todo_list, status=status.HTTP_201_CREATED)
 
     def list(self, request):
         todo_lists = self.__todo_list_service.list()

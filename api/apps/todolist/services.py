@@ -6,11 +6,12 @@ from .serializers import TodoListSerializer
 
 
 class TodoListService:
-    def create(self, todo_list: TodoListSerializer):
-        todo_list.save()
-        for key in ['list-todolist']:
-            cache.delete(key)
-        return todo_list
+    def create(self, todo_list: dict):
+        serializer = TodoListSerializer(data=todo_list)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        cache.delete('list-todolist')
+        return serializer.data
 
     def list(self):
         todo_lists = cache.get('list-todolist')
