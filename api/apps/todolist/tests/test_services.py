@@ -81,7 +81,14 @@ class TodoListServicesTestCase(TestCase):
     @patch('apps.todolist.services.cache.delete')
     def test_destroy_todo_list_service(self, mock_delete):
         self.todo_list_service.destroy(self.todolist.pk)
-        mock_delete.assert_called_once()
+        self.assertEqual(mock_delete.call_count, 2)
+        self.assertTrue(
+            mock_delete.call_args_list,
+            [
+                (('list-todolist')),
+                ((f'retrieve-todolist-{self.todolist.pk}')),
+            ],
+        )
         self.assertFalse(TodoList.objects.filter(id=self.todolist.pk).exists())
 
     def test_should_raise_404_when_id_not_found_in_destroy_todo_list_service(
