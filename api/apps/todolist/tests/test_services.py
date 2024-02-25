@@ -2,6 +2,7 @@ from unittest.mock import patch
 
 from django.http import Http404
 from django.test import TestCase, override_settings
+from rest_framework.exceptions import ValidationError
 
 from ..models import TodoList
 from ..serializers import TodoListSerializer
@@ -95,3 +96,22 @@ class TodoListServicesTestCase(TestCase):
         with self.assertRaises(Http404):
             self.todo_list.delete()
             self.todo_list_service.destroy(self.todo_list.pk)
+
+    @patch('apps.todolist.services.cache.delete')
+    def test_update_service(self, mock_delete):
+        self.todo_list_service.update(
+            self.todo_list.pk,
+            {**TodoListSerializer(self.todo_list).data, 'concluded': True},
+        )
+        self.todo_list.refresh_from_db()
+        self.assertTrue(
+            TodoListSerializer(self.todo_list).data['concluded'], True
+        )
+        self.assertEqual(mock_delete.call_count, 2)
+        self.assertTrue(
+            mock_delete.call_args_list,
+            [
+                (('list-todolist')),
+                ((f'retrieve-todolist-{self.todo_list.pk}')),
+            ],
+        )
