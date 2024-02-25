@@ -10,11 +10,7 @@ urlpatterns = [
     ),
     path(
         'todolist/<str:pk>',
-        TodoListViewSet.as_view(
-            {
-                'get': 'retrieve',
-            }
-        ),
+        TodoListViewSet.as_view({'get': 'retrieve', 'delete': 'destroy'}),
         name='todolist_pk',
     ),
 ]
