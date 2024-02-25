@@ -125,3 +125,12 @@ class TodoListServicesTestCase(TestCase):
                 self.todo_list.pk,
                 {**TodoListSerializer(self.todo_list).data, 'concluded': True},
             )
+
+    def test_should_raise_validation_error_when_data_is_invalid_update_service(
+        self,
+    ):
+        with self.assertRaises(ValidationError):
+            self.todo_list_service.update(
+                self.todo_list.pk,
+                {'concluded': 'invalid_value'},
+            )
