@@ -3,7 +3,6 @@ from typing import Any
 from rest_framework import status, viewsets
 from rest_framework.response import Response
 
-from .serializers import TodoListSerializer
 from .services import TodoListService
 
 
