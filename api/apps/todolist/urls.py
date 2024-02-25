@@ -8,4 +8,12 @@ urlpatterns = [
         TodoListViewSet.as_view({'post': 'create', 'get': 'list'}),
         name='todolist',
     ),
+    path(
+        'todolist/<str:pk>',
+        TodoListViewSet.as_view(
+            {
+                'get': 'retrieve',
+            }
+        ),
+    ),
 ]
