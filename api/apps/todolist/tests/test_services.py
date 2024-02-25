@@ -1,5 +1,6 @@
 from unittest.mock import patch
 
+from django.http import Http404
 from django.test import TestCase, override_settings
 
 from ..models import TodoList
@@ -69,3 +70,10 @@ class TodoListServicesTestCase(TestCase):
         todo_list = self.todo_list_service.retrieve(self.todolist.pk)
         mock_set.assert_called_once()
         self.assertEqual(todo_list, TodoListSerializer(self.todolist).data)
+
+    def test_should_raise_404_when_id_not_found_in_retrieve_todo_list_service(
+        self,
+    ):
+        with self.assertRaises(Http404):
+            self.todolist.delete()
+            self.todo_list_service.retrieve(self.todolist.pk)
