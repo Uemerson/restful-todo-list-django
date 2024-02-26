@@ -2,6 +2,16 @@
 
 RESTful API To-Do List implemented using Django.
 
+Technologies used:
+
+- Python
+- Django
+- Django Rest framework
+- Redis
+- PostgreSQL
+- Django Debug Toolbar
+- OpenAPI 3 with `drf-spectacular`
+
 # Bash scripts
 
 - The script [up.dev.v2.sh](./up.dev.v2.sh) contains bash instructions to bring up the application using `Docker v2` and stop the containers by pressing Ctrl+C.
