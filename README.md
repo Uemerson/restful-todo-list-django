@@ -32,7 +32,7 @@ $ docker compose -f docker-compose.dev.yml --env-file .env.dev up -d --build --r
 ```
 
 
-## Documentation
+## API Documentation
 
 After bringing up the application, you can access the documentation via the following link [http://localhost:8000/api/schema/swagger-ui/](http://localhost:8000/api/schema/swagger-ui/)
 
