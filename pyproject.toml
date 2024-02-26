@@ -10,6 +10,9 @@ python = "^3.12"
 django = "^5.0.2"
 djangorestframework = "^3.14.0"
 psycopg2-binary = "^2.9.9"
+redis = {extras = ["hiredis"], version = "^5.0.1"}
+django-debug-toolbar = "^4.3.0"
+drf-spectacular = {extras = ["sidecar"], version = "^0.27.1"}
 
 
 [tool.poetry.group.dev.dependencies]
