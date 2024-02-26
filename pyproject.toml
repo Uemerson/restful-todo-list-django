@@ -21,6 +21,7 @@ isort = "^5.13.2"
 mypy = "^1.8.0"
 pylint = "^3.0.3"
 flake8 = "^4"
+coverage = "^7.4.3"
 
 [build-system]
 requires = ["poetry-core"]
