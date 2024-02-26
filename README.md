@@ -1,6 +1,6 @@
 # About
 
-API RESTful To-Do List
+RESTful API To-Do List implemented using Django.
 
 # Bash scripts
 
@@ -31,10 +31,11 @@ or if you don't want to use the bash script:
 $ docker compose -f docker-compose.dev.yml --env-file .env.dev up -d --build --remove-orphans
 ```
 
+After bringing up the application with the default values from .env.example, the API should be running at [localhost:8000](http://localhost:8000/). To access the API documentation, go to the [API Documentation](#api-documentation) section.
 
 ## API Documentation
 
-After bringing up the application, you can access the documentation via the following link [http://localhost:8000/api/schema/swagger-ui/](http://localhost:8000/api/schema/swagger-ui/)
+After bringing up the application, you can access the documentation via the following link [Open API Swagger-UI](http://localhost:8000/api/schema/swagger-ui/)
 
 # Tests
 
@@ -66,7 +67,7 @@ and
 (.venv) $ pip install -r requirements_dev.txt
 ```
 
-Afterwards, you can covarage using the bash script below:
+After installing the dependencies and having the **.env.test file** [(see instructions)](#instructions), you can covarage using the bash script below:
 
 ```
 (.venv) $ bash coverage.v2.sh
@@ -81,7 +82,9 @@ or if you don't want to use the bash script:
 (.venv) $ python -m coverage html
 ```
 
+
 # Note
 
 If you are using **Docker version 1 and Docker Compose version 1**, please replace `docker compose` with `docker-compose` in the bash scripts.
 
+If you are on localhost, upon opening the API in the browser, you should see the **Django Debug Toolbar** on the side. It is used to display information about request times, executed SQL commands, and other useful information.
