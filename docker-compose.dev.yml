@@ -14,9 +14,11 @@ services:
     env_file:
       - ./.env.dev
     networks:
-      - postgres
+      - local_network
     depends_on:
       postgres:
+        condition: service_healthy
+      redis:
         condition: service_healthy
 
   postgres:
@@ -26,20 +28,39 @@ services:
       POSTGRES_USER: ${POSTGRES_USER:-postgres}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
       POSTGRES_DB: ${POSTGRES_DB:-postgres}
-      PGDATA: /data/postgres
     volumes:
-       - .docker/postgres:/var/lib/postgresql/data/
+      - postgres:/var/lib/postgresql/data
     ports:
       - "${POSTGRES_PORT:-5432}:5432"
     networks:
-      - postgres
+      - local_network
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U postgres"]
       interval: 5s
       timeout: 5s
       retries: 5
 
+  redis:
+    container_name: todolist_redis
+    image: redis:7.2.4-alpine
+    restart: always
+    ports:
+      - '6379:6379'
+    volumes: 
+      - redis:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 1s
+      timeout: 3s
+      retries: 30
+    networks:
+      - local_network
+
 networks:
-  postgres:
+  local_network:
     driver: bridge
 
+
+volumes:
+    postgres:
+    redis:
